@@ -14,6 +14,16 @@ export default {
         ...(process.versions.pnp ? { tsc: 'yarn pnpify tsc' } : {}),
       },
     ],
+    [
+      'snowpack-custom-headers',
+      {
+        headers: {
+          'Cross-Origin-Embedder-Policy': 'require-corp',
+          'Cross-Origin-Opener-Policy': 'same-origin',
+        },
+        port: 8081,
+      },
+    ],
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -27,7 +37,7 @@ export default {
     /* ... */
   },
   devOptions: {
-    /* ... */
+    open: 'none',
   },
   buildOptions: {
     /* ... */

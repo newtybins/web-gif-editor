@@ -8,6 +8,7 @@ interface AppProps {}
 
 function App({}: AppProps) {
   const [ready, setReady] = useState(false);
+  const [video, setVideo] = useState<File | null>();
 
   const load = async () => {
     await ffmpeg.load();
@@ -19,7 +20,17 @@ function App({}: AppProps) {
     load();
   }, []);
 
-  return ready ? <div></div> : <p>Loading...</p>;
+  return ready ? (
+    <div>
+      {video && (
+        <video controls width={250} src={URL.createObjectURL(video)}></video>
+      )}
+
+      <input type="file" onChange={(e) => setVideo(e.target.files?.item(0))} />
+    </div>
+  ) : (
+    <p>Loading...</p>
+  );
 }
 
 export default App;
