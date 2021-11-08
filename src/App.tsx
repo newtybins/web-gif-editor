@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Dropzone from 'react-dropzone';
-// @ts-ignore
-// todo: replace package
-import { Ring } from 'react-awesome-spinners';
+import Loader from './components/Loader';
 
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 const ffmpeg = createFFmpeg({ log: true });
@@ -10,7 +8,7 @@ const ffmpeg = createFFmpeg({ log: true });
 function App() {
     const [ready, setReady] = useState(false);
     const [video, setVideo] = useState<File | null>();
-    const [gif, setGif] = useState<string>();
+    const [gif, setGif] = useState<string | null>();
 
     const load = async () => {
         await ffmpeg.load();
@@ -40,7 +38,14 @@ function App() {
 
     return ready ? (
         <div className="font-sans text-xl">
-            <Dropzone onDrop={files => setVideo(files[0])} accept={['video/*']} maxFiles={1}>
+            <Dropzone
+                onDrop={files => {
+                    setVideo(files[0]);
+                    setGif(null);
+                }}
+                accept={['video/*']}
+                maxFiles={1}
+            >
                 {({ getRootProps, getInputProps }) => (
                     <section className="grid justify-center mt-10">
                         <div {...getRootProps({ className: 'dropzone' })}>
@@ -66,7 +71,7 @@ function App() {
         </div>
     ) : (
         <div className="fixed top-1/4 left-1/2" style={{ transform: 'translate(-50%, -50%)' }}>
-            <Ring color="#212121" size={128} />
+            <Loader />
         </div>
     );
 }
