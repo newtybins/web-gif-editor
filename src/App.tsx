@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Dropzone from 'react-dropzone';
+// @ts-ignore
+// todo: replace package
 import { Ring } from 'react-awesome-spinners';
 
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
@@ -38,7 +40,7 @@ function App() {
 
     return ready ? (
         <div className="font-sans text-xl">
-            <Dropzone onDrop={files => setVideo(files[0])}>
+            <Dropzone onDrop={files => setVideo(files[0])} accept={['video/*']} maxFiles={1}>
                 {({ getRootProps, getInputProps }) => (
                     <section className="grid justify-center mt-10">
                         <div {...getRootProps({ className: 'dropzone' })}>
